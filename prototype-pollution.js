@@ -1,19 +1,9 @@
-// const SOMEOBJECT = {};
-
-// app.get("/validateToken", (req, res) => {
-//   if (req.header("token")) {
-//     const token = Buffer.from(req.header("token"), "base64");
-//     if (SOMEOBJECT[token] && token) {
-//       return res.send("true");
-//     }
-//   }
-//   return res.sendYfalsen;
-// });
 const SOMEOBJECT = {};
 
 app.get("/validateToken", (req, res) => {
   if (req.header("token")) {
     const token = Buffer.from(req.header("token"), "base64");
+    // if (SOMEOBJECT[token] && token) { | security threat
     if (SOMEOBJECT.hasOwnProperty(token) && token) {
       return res.send("true");
     }
@@ -56,14 +46,24 @@ indexed into it is going to fetch that prototype object, it'll end
 together with the proto string. And then because those are truthy, this
 if will actually evaluate to true, and then we'll send true, even though
 it should have been false, even because we should have been looking for
-the token object, and the token in the object is empty so it shouldn't have had the token.
+the token object, and the token in the object is empty so it shouldn't 
+have had the token.
 
 to protect against this
 
 
-we want to make sure that instead of indexing in with SOMEOBJECT.token we want to make sure that only look at the properties of the object in question.
+we want to make sure that instead of indexing in with SOMEOBJECT.token 
+we want to make sure that only look at the properties of the object in 
+question.
 
-We can do that using hasOwn property function. So we use this method, we pass in the token and then istead of even if we were to pass in __proto__ string it's not going to go and fetch the proto. its going to go and check that property exists in the object. And because the object is empty, this will never evaluate to true and then we'll never send true. 
+We can do that using hasOwn property function. So we use this method, 
+we pass in the token and then istead of even if we were to pass in 
+__proto__ string it's not going to go and fetch the proto. its going 
+to go and check that property exists in the object. And because the 
+object is empty, this will never evaluate to true and then we'll 
+never send true. 
+
+SOMEOBJECT.hasOwnProperty(token)
 
 Thats how you prevent a prototype pollution attack
 
