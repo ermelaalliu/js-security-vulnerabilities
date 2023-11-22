@@ -1,4 +1,4 @@
-#Javascript Security Vulnerabilites
+# Javascript Security Vulnerabilites
 
 Notes while learning about these vulnerabilities.
 
